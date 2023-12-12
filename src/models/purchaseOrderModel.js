@@ -1,10 +1,9 @@
-// inventory.model.js
+// purchaseOrderModel.js
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/database.js';
-import Product from './productModel.js'; 
 
-const Inventory = sequelize.define(
-  'Inventory',
+const PurchaseOrder = sequelize.define(
+  'PurchaseOrder',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -19,9 +18,15 @@ const Inventory = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    operationDate: {
+    orderDate: {
       type: DataTypes.DATE,
       allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'pending', // Puedes agregar más estados según sea necesario
     },
   },
   {
@@ -29,10 +34,4 @@ const Inventory = sequelize.define(
   }
 );
 
-// Definir la asociación con el modelo Product
-Inventory.belongsTo(Product, {
-  foreignKey: 'productId',
-  as: 'product',
-});
-
-export default Inventory;
+export default PurchaseOrder;

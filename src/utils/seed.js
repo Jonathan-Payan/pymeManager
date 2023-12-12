@@ -64,27 +64,25 @@ const seedDatabase = async () => {
     });
 
     // Agrega operaciones de entrada y salida en el inventario
-    await InventoryModel.bulkCreate([
-      {
-        productId: product1.id,
-        quantity: 5,
-        operationType: 'entrada', // Operación de entrada
-        operationDate: sequelize.literal('CURRENT_TIMESTAMP'), // Fecha de operación
-      },
-      {
-        productId: product2.id,
-        quantity: 10,
-        operationType: 'entrada', // Operación de entrada
-        operationDate: sequelize.literal('CURRENT_TIMESTAMP'), // Fecha de operación
-      },
-      {
-        productId: product1.id,
-        quantity: 3,
-        operationType: 'salida', // Operación de salida
-        operationDate: sequelize.literal('CURRENT_TIMESTAMP'), // Fecha de operación
-      },
-      // Agrega más operaciones según sea necesario
-    ]);
+await InventoryModel.bulkCreate([
+  {
+    productId: product1.id,
+    quantity: 5,
+    operationDate: sequelize.literal('CURRENT_TIMESTAMP'), // Fecha de operación
+  },
+  {
+    productId: product2.id,
+    quantity: 10,
+    operationDate: sequelize.literal('CURRENT_TIMESTAMP'), // Fecha de operación
+  },
+  {
+    productId: product1.id,
+    quantity: -3, // Cantidades negativas para representar una salida
+    operationDate: sequelize.literal('CURRENT_TIMESTAMP'), // Fecha de operación
+  },
+  // Agrega más operaciones según sea necesario
+]);
+
 
     console.log('Datos de prueba generados con éxito.');
 
