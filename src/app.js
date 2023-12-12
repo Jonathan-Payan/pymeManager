@@ -8,6 +8,8 @@ import supplierRoutes from './routes/supplierRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';  
 import inventoryRoutes from './routes/inventoryRoutes.js';  
 import purchaseOrderRoutes from './routes/purchaseOrderRoutes.js';
+import purchasePriceRoutes from './routes/purchasePriceRoutes.js';
+import salePriceRoutes from './routes/salePriceRoutes.js';
 
 
 
@@ -29,6 +31,8 @@ app.use('/api/', supplierRoutes);
 app.use('/api/', categoryRoutes); 
 app.use('/api/', inventoryRoutes); 
 app.use('/api', purchaseOrderRoutes);
+app.use('/api', purchasePriceRoutes);
+app.use('/api', salePriceRoutes);
 
 
 export default app;
