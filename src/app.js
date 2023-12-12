@@ -1,8 +1,6 @@
 // app.js
 import express from 'express';
 import morgan from 'morgan';
-import { setAssociations } from './config/database-associations.js';
-import contactsRoutes from './routes/contact.routes.js';
 import usersRoutes from './routes/userRoutes.js';
 import cors from 'cors';
 import productRoutes from './routes/productRoutes.js';
@@ -23,7 +21,6 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 // Routes
-app.use('/api/contacts', contactsRoutes);
 app.use('/api/', usersRoutes);
 app.use('/api/', productRoutes);
 app.use('/api/', supplierRoutes);

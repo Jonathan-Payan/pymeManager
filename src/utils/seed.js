@@ -68,20 +68,20 @@ const seedDatabase = async () => {
       {
         productId: product1.id,
         quantity: 5,
-        entryDate: sequelize.literal('CURRENT_TIMESTAMP'), // Fecha de entrada
-        exitDate: null,
+        operationType: 'entrada', // Operación de entrada
+        operationDate: sequelize.literal('CURRENT_TIMESTAMP'), // Fecha de operación
       },
       {
         productId: product2.id,
         quantity: 10,
-        entryDate: sequelize.literal('CURRENT_TIMESTAMP'), // Fecha de entrada
-        exitDate: null,
+        operationType: 'entrada', // Operación de entrada
+        operationDate: sequelize.literal('CURRENT_TIMESTAMP'), // Fecha de operación
       },
       {
         productId: product1.id,
-        quantity: -3,
-        entryDate: sequelize.literal('CURRENT_TIMESTAMP'), // Fecha de entrada
-        exitDate: sequelize.literal('CURRENT_TIMESTAMP'), // Fecha de salida
+        quantity: 3,
+        operationType: 'salida', // Operación de salida
+        operationDate: sequelize.literal('CURRENT_TIMESTAMP'), // Fecha de operación
       },
       // Agrega más operaciones según sea necesario
     ]);

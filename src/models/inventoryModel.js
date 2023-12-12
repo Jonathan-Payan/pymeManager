@@ -1,4 +1,4 @@
-// inventory.model.js
+// inventoryModel.js
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/database.js';
 
@@ -18,13 +18,13 @@ const Inventory = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    entryDate: {
-      type: DataTypes.DATE,
+    operationType: {
+      type: DataTypes.ENUM('entrada', 'salida'),
       allowNull: false,
     },
-    exitDate: {
+    operationDate: {
       type: DataTypes.DATE,
-      allowNull: true, 
+      allowNull: false,
     },
   },
   {
