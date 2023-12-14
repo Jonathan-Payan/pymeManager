@@ -28,7 +28,12 @@ const PurchaseOrder = sequelize.define(
       allowNull: false,
       defaultValue: 'pending', // Puedes agregar más estados según sea necesario
     },
+    providerId: {
+      type: DataTypes.INTEGER,
+      allowNull: true, // Puede estar vacío al principio
+    },
   },
+  
   {
     timestamps: false,
   }

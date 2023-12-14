@@ -1,37 +1,32 @@
-// purchasePriceRoutes.js
 import express from 'express';
-import { addPurchasePrice, getPurchasePrices, updatePurchasePrice, deletePurchasePrice } from '../controllers/purchasePriceController.js';
+import {
+  createPurchasePriceForProduct,
+  deletePurchasePrice, 
+  getAllPurchasePrices,
+  getAllPurchasePricesForProduct,
+  getLatestPurchasePriceForProduct,
+  updatePurchasePrice
+} from '../controllers/purchasePriceController.js';
 
 const router = express.Router();
 
-// Ruta para agregar un precio de compra
-router.post('/purchase-price', async (req, res) => {
-  const { productId, price } = req.body;
-  await addPurchasePrice(productId, price);
-  res.status(201).json({ message: 'Purchase price added successfully' });
-});
+// Obtener todos los precios de compra
+router.get('/purchase-prices', getAllPurchasePrices);
 
-// Ruta para obtener los precios de compra
-router.get('/purchase-price/:productId', async (req, res) => {
-  const { productId } = req.params;
-  const prices = await getPurchasePrices(productId);
-  res.status(200).json(prices);
-});
+router.post('/purchase-prices/:productId', createPurchasePriceForProduct);
 
-// Ruta para actualizar un precio de compra
-router.put('/purchase-price/:priceId', async (req, res) => {
-  const { priceId } = req.params;
-  const { newPrice } = req.body;
-  await updatePurchasePrice(priceId, newPrice);
-  res.status(200).json({ message: 'Purchase price updated successfully' });
-});
 
-// Ruta para eliminar un precio de compra
-router.delete('/purchase-price/:priceId', async (req, res) => {
-  const { priceId } = req.params;
-  await deletePurchasePrice(priceId);
-  res.status(200).json({ message: 'Purchase price deleted successfully' });
-});
+// Actualizar un precio de compra existente
+router.put('/purchase-prices/:id', updatePurchasePrice);
+
+// Eliminar un precio de compra por ID
+router.delete('/purchase-prices/:id', deletePurchasePrice);
+
+// Obtener todos los precios de compra para un producto específico
+router.get('/purchase-prices/:productId', getAllPurchasePricesForProduct);
+
+// Obtener el precio de compra más reciente para un producto específico
+router.get('/latest-purchase-price/:productId', getLatestPurchasePriceForProduct);
+
 
 export default router;
-

@@ -1,36 +1,27 @@
-// salePriceRoutes.js
 import express from 'express';
-import { addSalePrice, getSalePrices, updateSalePrice, deleteSalePrice } from '../controllers/salePriceController.js';
+import {
+  getAllSalePrices,
+  getSalePriceById,
+  createSalePrice,
+  updateSalePrice,
+  deleteSalePrice,
+} from '../controllers/salePriceController.js';
 
 const router = express.Router();
 
-// Ruta para agregar un precio de venta
-router.post('/sale-price/', async (req, res) => {
-  const { productId, price } = req.body;
-  await addSalePrice(productId, price);
-  res.status(201).json({ message: 'Sale price added successfully' });
-});
+// Obtener todos los precios de venta
+router.get('/sale-prices', getAllSalePrices);
 
-// Ruta para obtener los precios de venta
-router.get('/sale-price/:productId', async (req, res) => {
-  const { productId } = req.params;
-  const prices = await getSalePrices(productId);
-  res.status(200).json(prices);
-});
+// Obtener un precio de venta por ID
+router.get('/sale-prices/:id', getSalePriceById);
 
-// Ruta para actualizar un precio de venta
-router.put('/sale-price/:priceId', async (req, res) => {
-  const { priceId } = req.params;
-  const { newPrice } = req.body;
-  await updateSalePrice(priceId, newPrice);
-  res.status(200).json({ message: 'Sale price updated successfully' });
-});
+// Crear un nuevo precio de venta
+router.post('/sale-prices', createSalePrice);
 
-// Ruta para eliminar un precio de venta
-router.delete('/sale-price/:priceId', async (req, res) => {
-  const { priceId } = req.params;
-  await deleteSalePrice(priceId);
-  res.status(200).json({ message: 'Sale price deleted successfully' });
-});
+// Actualizar un precio de venta existente
+router.put('/sale-prices/:id', updateSalePrice);
+
+// Eliminar un precio de venta por ID
+router.delete('/sale-prices/:id', deleteSalePrice);
 
 export default router;

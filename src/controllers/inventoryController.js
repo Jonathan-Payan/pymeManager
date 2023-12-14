@@ -5,6 +5,7 @@ import PurchaseOrderModel from '../models/purchaseOrderModel.js';
 import { Sequelize } from 'sequelize';
 
 
+
 const addInventoryEntry = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
@@ -95,7 +96,7 @@ const getInventory = async (req, res) => {
 
 
 // Función para imprimir el stock actual del producto
-const printProductStock = async (productId) => {
+export const printProductStock = async (productId) => {
     let dateThreshold;
   
     try {
@@ -184,8 +185,9 @@ const printProductStock = async (productId) => {
         const purchaseOrder = await PurchaseOrderModel.create({
           productId,
           quantity: initialStock - currentStock, // Cantidad es la diferencia entre el stock inicial y el actual
-          orderDate: new Date(), // Asigna la fecha actual como fecha de la orden
-          status: 'pending', // Asigna el estado 'pending' por defecto, ajusta según sea necesario
+          orderDate: new Date(), 
+          status: 'pending', 
+          providerId:null,
         });
         console.log(`Generada orden de compra para el producto ${productId}`);
       }

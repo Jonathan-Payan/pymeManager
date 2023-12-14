@@ -5,6 +5,8 @@ import SalePriceModel from '../models/salePriceModel.js';
 import SupplierModel from '../models/supplierModel.js';
 import CategoryModel from '../models/categoryModel.js';
 import InventoryModel from '../models/inventoryModel.js';
+import CustomerModel from '../models/customerModel.js';
+
 
 const seedDatabase = async () => {
   try {
@@ -39,9 +41,46 @@ const seedDatabase = async () => {
       contact_email: 'contacto2@example.com',
     });
 
+    const customer1 = await CustomerModel.create({
+      name: 'Juan Pérez',
+      email: 'juan@example.com',
+      phone: '123456789',
+      address: 'Calle Principal 123',
+    });
+    
+    const customer2 = await CustomerModel.create({
+      name: 'María González',
+      email: 'maria@example.com',
+      phone: '987654321',
+      address: 'Avenida Secundaria 456',
+    });
+    
+    const customer3 = await CustomerModel.create({
+      name: 'Carlos López',
+      email: 'carlos@example.com',
+      phone: '555555555',
+      address: 'Plaza Central 789',
+    });
+    
+
     // Crea categorías de ejemplo
-    const category1 = await CategoryModel.create({ name: 'Electrónicos' });
-    const category2 = await CategoryModel.create({ name: 'Ropa' });
+    const category1 = await CategoryModel.create({ name: 'Alimentos y bebidas' });
+    const category2 = await CategoryModel.create({ name: 'Electrónica y tecnología' });
+    const category3 = await CategoryModel.create({ name: 'Ropa y moda' });
+    const category4 = await CategoryModel.create({ name: 'Productos para el hogar' });
+    const category5 = await CategoryModel.create({ name: 'Salud y belleza' });
+    const category6 = await CategoryModel.create({ name: 'Electrodomésticos' });
+    const category7 = await CategoryModel.create({ name: 'Juguetes y entretenimiento' });
+    const category8 = await CategoryModel.create({ name: 'Construcción y ferretería' });
+    const category9 = await CategoryModel.create({ name: 'Automóviles y accesorios' });
+    const category10 = await CategoryModel.create({ name: 'Deportes y aire libre' });
+    const category11 = await CategoryModel.create({ name: 'Libros y medios' });
+    const category12 = await CategoryModel.create({ name: 'Productos para oficina' });
+    const category13 = await CategoryModel.create({ name: 'Joyería y relojes' });
+    const category14 = await CategoryModel.create({ name: 'Productos para mascotas' });
+    const category15 = await CategoryModel.create({ name: 'Productos de limpieza' });
+
+    
 
     // Crea productos de ejemplo asociados a proveedores y categorías
     const product1 = await ProductModel.create({
@@ -51,7 +90,7 @@ const seedDatabase = async () => {
       categoryId: category1.id,
       weight: 1.5,
       expirationDate: '2023-12-31',
-      image: 'product1.jpg',
+      image: 'https://definicion.de/wp-content/uploads/2009/06/producto.png',
       description: 'Descripción del producto 1',
     });
 
@@ -62,7 +101,7 @@ const seedDatabase = async () => {
       categoryId: category2.id,
       weight: 2.0,
       expirationDate: '2023-11-30',
-      image: 'product2.jpg',
+      image: 'https://definicion.de/wp-content/uploads/2009/06/producto.png',
       description: 'Descripción del producto 2',
     });
 

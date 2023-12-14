@@ -10,6 +10,11 @@ import inventoryRoutes from './routes/inventoryRoutes.js';
 import purchaseOrderRoutes from './routes/purchaseOrderRoutes.js';
 import purchasePriceRoutes from './routes/purchasePriceRoutes.js';
 import salePriceRoutes from './routes/salePriceRoutes.js';
+import saleRoutes from './routes/saleRoutes.js'; 
+import saleItemRoutes from './routes/saleItemRoutes.js'; 
+import customerRoutes from './routes/customerRoutes.js';
+
+
 
 
 
@@ -30,9 +35,17 @@ app.use('/api/', productRoutes);
 app.use('/api/', supplierRoutes);
 app.use('/api/', categoryRoutes); 
 app.use('/api/', inventoryRoutes); 
-app.use('/api', purchaseOrderRoutes);
-app.use('/api', purchasePriceRoutes);
-app.use('/api', salePriceRoutes);
+app.use('/api/', purchaseOrderRoutes);
+app.use('/api/', purchasePriceRoutes);
+app.use('/api/', salePriceRoutes);
+app.use('/api/', saleRoutes);
+app.use('/api/', saleItemRoutes);
+app.use('/api/', customerRoutes);
+
+
+
+
+
 
 
 export default app;

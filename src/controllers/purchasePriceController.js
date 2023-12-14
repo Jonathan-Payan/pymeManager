@@ -1,51 +1,80 @@
-// purchasePriceController.js
 import PurchasePrice from '../models/purchasePriceModel.js';
 
-const addPurchasePrice = async (productId, price) => {
+// Obtener todos los precios de compra
+export const getAllPurchasePrices = async (req, res) => {
   try {
-    await PurchasePrice.create({ productId, price });
+    const purchasePrices = await PurchasePrice.findAll();
+    res.status(200).json(purchasePrices);
   } catch (error) {
-    console.error(`Error adding purchase price for product ${productId}:`, error);
+    res.status(500).json({ error: error.message });
   }
 };
 
-
-
-const getPurchasePrices = async (productId) => {
+export const getAllPurchasePricesForProduct = async (req, res) => {
+  const { productId } = req.params;
   try {
-    const prices = await PurchasePrice.findAll({ where: { productId } });
-    return prices;
+    const purchasePrices = await PurchasePrice.findAll({ where: { productId } });
+    res.status(200).json(purchasePrices);
   } catch (error) {
-    console.error(`Error getting purchase prices for product ${productId}:`, error);
-    return [];
+    res.status(500).json({ error: error.message });
   }
 };
 
-const updatePurchasePrice = async (priceId, newPrice) => {
+// Obtener el precio de compra más reciente para un producto específico
+export const getLatestPurchasePriceForProduct = async (req, res) => {
+  const { productId } = req.params;
   try {
-    const price = await PurchasePrice.findByPk(priceId);
-    if (price) {
-      price.price = newPrice;
-      await price.save();
+    const latestPurchasePrice = await PurchasePrice.findOne({
+      where: { productId },
+      order: [['date', 'DESC']],
+    });
+    res.status(200).json(latestPurchasePrice);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Crear un nuevo precio de compra para un producto específico
+export const createPurchasePriceForProduct = async (req, res) => {
+  const { price, date } = req.body;
+  const { productId } = req.params;
+  try {
+    const newPurchasePrice = await PurchasePrice.create({ price, date, productId });
+    res.status(201).json(newPurchasePrice);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Actualizar un precio de compra existente
+export const updatePurchasePrice = async (req, res) => {
+  const { id } = req.params;
+  const { price, date, productId } = req.body;
+  try {
+    const purchasePrice = await PurchasePrice.findByPk(id);
+    if (!purchasePrice) {
+      res.status(404).json({ message: 'Precio de compra no encontrado' });
+      return;
     }
+    await purchasePrice.update({ price, date, productId });
+    res.status(200).json(purchasePrice);
   } catch (error) {
-    console.error(`Error updating purchase price with ID ${priceId}:`, error);
+    res.status(500).json({ error: error.message });
   }
 };
 
-const deletePurchasePrice = async (priceId) => {
+// Eliminar un precio de compra por ID
+export const deletePurchasePrice = async (req, res) => {
+  const { id } = req.params;
   try {
-    const price = await PurchasePrice.findByPk(priceId);
-    if (price) {
-      await price.destroy();
+    const purchasePrice = await PurchasePrice.findByPk(id);
+    if (!purchasePrice) {
+      res.status(404).json({ message: 'Precio de compra no encontrado' });
+      return;
     }
+    await purchasePrice.destroy();
+    res.status(204).end();
   } catch (error) {
-    console.error(`Error deleting purchase price with ID ${priceId}:`, error);
+    res.status(500).json({ error: error.message });
   }
 };
-
-export {addPurchasePrice, getPurchasePrices, updatePurchasePrice, deletePurchasePrice };
-
-
-
-

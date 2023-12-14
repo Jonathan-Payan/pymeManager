@@ -35,31 +35,30 @@ const getProductById = async (req, res) => {
     res.status(500).json({ message: 'Error getting the product' });
   }
 };
+
+
+
+
 const updateProduct = async (req, res) => {
   const { id } = req.params;
+  console.log(id);
+  console.log(req.body);
   try {
-    console.log(`Attempting to update product with ID: ${id}`);
-    
     const [numUpdatedRows] = await ProductModel.update(req.body, {
       where: { id },
     });
-
-    console.log(`Number of updated rows: ${numUpdatedRows}`);
-
     if (numUpdatedRows > 0) {
-      console.log('Product updated successfully');
-      // Puedes realizar una nueva búsqueda para obtener el producto actualizado si es necesario
       const updatedProduct = await ProductModel.findByPk(id);
       res.status(200).json(updatedProduct);
     } else {
-      console.log('No rows were updated.');
       res.status(404).json({ message: 'Product not found' });
     }
   } catch (error) {
-    console.error('Error updating the product:', error);
+    console.error(error);
     res.status(500).json({ message: 'Error updating the product' });
   }
 };
+
 
 
 

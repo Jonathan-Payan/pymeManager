@@ -1,48 +1,70 @@
-// salePriceController.js
 import SalePrice from '../models/salePriceModel.js';
 
-const addSalePrice = async (productId, price) => {
+// Obtener todos los precios de venta
+export const getAllSalePrices = async (req, res) => {
   try {
-    await SalePrice.create({ productId, price });
+    const salePrices = await SalePrice.findAll();
+    res.status(200).json(salePrices);
   } catch (error) {
-    console.error(`Error adding sale price for product ${productId}:`, error);
+    res.status(500).json({ error: error.message });
   }
 };
 
-
-
-const getSalePrices = async (productId) => {
+// Obtener un precio de venta por ID
+export const getSalePriceById = async (req, res) => {
+  const { id } = req.params;
   try {
-    const prices = await SalePrice.findAll({ where: { productId } });
-    return prices;
-  } catch (error) {
-    console.error(`Error getting sale prices for product ${productId}:`, error);
-    return [];
-  }
-};
-
-const updateSalePrice = async (priceId, newPrice) => {
-  try {
-    const price = await SalePrice.findByPk(priceId);
-    if (price) {
-      price.price = newPrice;
-      await price.save();
+    const salePrice = await SalePrice.findByPk(id);
+    if (!salePrice) {
+      res.status  (404).json({ message: 'Precio de venta no encontrado' });
+      return;
     }
+    res.status(200).json(salePrice);
   } catch (error) {
-    console.error(`Error updating sale price with ID ${priceId}:`, error);
+    res.status(500).json({ error: error.message });
   }
 };
 
-const deleteSalePrice = async (priceId) => {
+// Crear un nuevo precio de venta
+export const createSalePrice = async (req, res) => {
+  const { price, date, productId } = req.body;
   try {
-    const price = await SalePrice.findByPk(priceId);
-    if (price) {
-      await price.destroy();
-    }
+    const newSalePrice = await SalePrice.create({ price, date, productId });
+    res.status(201).json(newSalePrice);
   } catch (error) {
-    console.error(`Error deleting sale price with ID ${priceId}:`, error);
+    res.status(500).json({ error: error.message });
   }
 };
 
-export { addSalePrice, getSalePrices, updateSalePrice, deleteSalePrice };
+// Actualizar un precio de venta existente
+export const updateSalePrice = async (req, res) => {
+  const { id } = req.params;
+  const { price, date, productId } = req.body;
+  try {
+    const salePrice = await SalePrice.findByPk(id);
+    if (!salePrice) {
+      res.status(404).json({ message: 'Precio de venta no encontrado' });
+      return;
+    }
+    await salePrice.update({ price, date, productId });
+    res.status(200).json(salePrice);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
+// Eliminar un precio de venta por ID
+export const deleteSalePrice = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const salePrice = await SalePrice.findByPk(id);
+    if (!salePrice) {
+      res.status(404).json({ message: 'Precio de venta no encontrado' });
+      return;
+    }
+    await salePrice.destroy();
+    res.status(204).end();
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
