@@ -8,7 +8,7 @@ import { Sequelize } from 'sequelize';
 
 const addInventoryEntry = async (req, res) => {
   try {
-    const { productId, quantity } = req.body;
+    const { productId, quantity } = req.body ;
     const entryDate = new Date();
     const product = await ProductModel.findByPk(productId);
       if (!product) {

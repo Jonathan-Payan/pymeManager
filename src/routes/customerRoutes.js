@@ -1,4 +1,3 @@
-// routes/customerRoutes.js
 import express from 'express';
 import {
   getCustomers,

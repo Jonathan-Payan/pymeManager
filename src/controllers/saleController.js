@@ -3,6 +3,7 @@ import Sale from '../models/saleModel.js'; // Asegúrate de tener el nombre corr
 import SaleItem from '../models/saleItemModel.js'; // Asegúrate de tener el nombre correcto del modelo de elemento de venta
 import Product from '../models/productModel.js'; // Asegúrate de importar el modelo de producto
 import { printProductStock } from '../controllers/inventoryController.js'; // Importa la función para imprimir el stock
+import { addInventoryExit } from "./inventoryController.js";
 
 
 export const getSales = async (req, res) => {
@@ -58,6 +59,13 @@ export const createSale = async (req, res) => {
   
       // Si hay suficiente stock, proceder con la creación de la venta
       const newSale = await Sale.create(body, { include: [{ model: SaleItem, as: 'items' }] });
+
+      await addInventoryExit({
+        body: {
+          productId,
+          quantity
+        },
+      });
   
       res.status(201).json(newSale);
     } catch (error) {

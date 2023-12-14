@@ -1,5 +1,6 @@
 // purchaseOrderController.js
 import PurchaseOrderModel from '../models/purchaseOrderModel.js';
+import { addInventoryEntry } from "./inventoryController.js";
 
 const getPurchaseOrders = async (req, res) => {
   try {
@@ -37,4 +38,38 @@ const updatePurchaseOrder = async (req, res) => {
   }
 };
 
-export { getPurchaseOrders, updatePurchaseOrder };
+// Nuevo endpoint para actualizar el estado y realizar el movimiento de inventario
+const updateOrderAndInventory = async (req, res) => {
+  const { orderId } = req.params;
+  console.log(orderId);
+  const { status, productId, quantity } = req.body;
+
+  try {
+    const purchaseOrder = await PurchaseOrderModel.findByPk(orderId);
+
+    if (!purchaseOrder) {
+      return res.status(404).json({ message: 'Purchase order not found' });
+    }
+
+    await purchaseOrder.update({
+      status,
+    });
+
+    // Si el estado es 'received', realiza un movimiento de ingreso al inventario
+    if (status === 'received') {
+      await addInventoryEntry({
+        body: {
+          productId,
+          quantity
+        },
+      });
+    }
+
+    res.status(200).json({ message: 'Purchase order and inventory updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error updating purchase order and inventory' });
+  }
+};
+
+export { getPurchaseOrders, updatePurchaseOrder, updateOrderAndInventory };

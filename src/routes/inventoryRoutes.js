@@ -1,4 +1,3 @@
-// inventoryRoutes.js
 import express from 'express';
 import { addInventoryEntry, addInventoryExit, getInventory } from '../controllers/inventoryController.js';
 
