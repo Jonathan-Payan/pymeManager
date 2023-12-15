@@ -5,6 +5,7 @@ import {
   createSalePrice,
   updateSalePrice,
   deleteSalePrice,
+  getLatestSalePriceForProduct,
 } from '../controllers/salePriceController.js';
 
 const router = express.Router();
@@ -23,5 +24,8 @@ router.put('/sale-prices/:id', updateSalePrice);
 
 // Eliminar un precio de venta por ID
 router.delete('/sale-prices/:id', deleteSalePrice);
+
+router.get('/latest-sale-price/:productId', getLatestSalePriceForProduct);
+
 
 export default router;

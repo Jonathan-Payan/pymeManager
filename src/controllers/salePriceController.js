@@ -68,3 +68,17 @@ export const deleteSalePrice = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// Obtener el precio de venta más reciente para un producto específico
+export const getLatestSalePriceForProduct = async (req, res) => {
+  const { productId } = req.params;
+  try {
+    const latestSalePrice = await SalePrice.findOne({
+      where: { productId },
+      order: [['date', 'DESC']],
+    });
+    res.status(200).json(latestSalePrice);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

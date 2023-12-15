@@ -6,9 +6,14 @@ import { Sequelize } from 'sequelize';
 
 
 
+
 const addInventoryEntry = async (req, res) => {
+  console.log("-------------------------                 --------------------             ----------------------- addInventoryEntry");
+
   try {
     const { productId, quantity } = req.body ;
+    console.log("-------------------------                 --------------------             ----------------------- req.body   "+productId+"   "+quantity);
+
     const entryDate = new Date();
     const product = await ProductModel.findByPk(productId);
       if (!product) {
@@ -24,7 +29,8 @@ const addInventoryEntry = async (req, res) => {
 
     console.log('operacion in ---------------------------------- in --->    '+currentStock+','+initialStock)
     if (currentStock > initialStock) {
-      return res.status(400).json({ message: 'Se sobrepasa el valor establecido de stock' });
+      const availableStock = currentStock - initialStock;
+      return res.status(400).json({ message: `No hay suficiente stock disponible. Stock actual: ${currentStock}, Stock disponible: ${availableStock}` });
     }
 
 

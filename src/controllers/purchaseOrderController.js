@@ -41,7 +41,6 @@ const updatePurchaseOrder = async (req, res) => {
 // Nuevo endpoint para actualizar el estado y realizar el movimiento de inventario
 const updateOrderAndInventory = async (req, res) => {
   const { orderId } = req.params;
-  console.log(orderId);
   const { status, productId, quantity } = req.body;
 
   try {
@@ -56,14 +55,15 @@ const updateOrderAndInventory = async (req, res) => {
     });
 
     // Si el estado es 'received', realiza un movimiento de ingreso al inventario
-    if (status === 'received') {
+
+    console.log("-------------------------                 --------------------             ----------------------- mov inventario")
       await addInventoryEntry({
         body: {
           productId,
           quantity
         },
       });
-    }
+    
 
     res.status(200).json({ message: 'Purchase order and inventory updated successfully' });
   } catch (error) {
@@ -72,4 +72,22 @@ const updateOrderAndInventory = async (req, res) => {
   }
 };
 
-export { getPurchaseOrders, updatePurchaseOrder, updateOrderAndInventory };
+
+const createPurchaseOrder = async (req, res) => {
+  const { productId, quantity, providerId } = req.body;
+
+  try {
+    const newPurchaseOrder = await PurchaseOrderModel.create({
+      productId,
+      quantity,
+      providerId,
+    });
+
+    res.status(201).json({ message: 'Purchase order created successfully', data: newPurchaseOrder });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error creating purchase order' });
+  }
+};
+
+export { getPurchaseOrders, updatePurchaseOrder, updateOrderAndInventory,createPurchaseOrder };
