@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.get('/sale-item/', getSaleItems);
 router.get('/sale-item/:id', getSaleItemById);
-router.get('/sale/:saleId/items', getSaleItemsBySaleId); // Nueva ruta para obtener elementos de venta por ID de venta
+router.get('/sale-items/:saleId', getSaleItemsBySaleId); // Nueva ruta para obtener elementos de venta por ID de venta
 router.post('/sale-item/', createSaleItem);
 router.put('/sale-item/:id', updateSaleItem);
 router.delete('/sale-item/:id', deleteSaleItem);

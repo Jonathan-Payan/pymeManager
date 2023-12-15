@@ -92,10 +92,10 @@ export const deleteSaleItem = async (req, res) => {
     res.status(500).json({ message: 'Error deleting sale item' });
   }
 };
-
+/*
 export const getSaleItemsBySaleId = async (req, res) => {
   const { saleId } = req.params;
-
+console.log("-----------------------------------         "+ saleId);
   try {
     const saleItems = await SaleItem.findAll({
       where: { saleId: saleId },
@@ -112,4 +112,25 @@ export const getSaleItemsBySaleId = async (req, res) => {
     res.status(500).json({ message: 'Error getting sale items by sale ID' });
   }
 };
+*/
+
+export const getSaleItemsBySaleId = async (req, res) => {
+  const { saleId } = req.params;
+
+  try {
+    const saleItems = await SaleItem.findAll({
+      where: { saleId: saleId },
+    });
+
+    if (!saleItems || saleItems.length === 0) {
+      return res.status(404).json({ message: 'No sale items found for the specified sale' });
+    }
+
+    res.status(200).json(saleItems);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error getting sale items by sale ID' });
+  }
+};
+
 
